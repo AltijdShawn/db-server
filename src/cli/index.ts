@@ -170,6 +170,14 @@ function handleUpdate(parts: string[], cluster: Cluster) {
     const uquery = parseRecords(schema, parts[changeInd +1]);
     const recs = table.select(squery)
 
+    if (
+        dbInd === -1 ||
+        tableInd === -1 ||
+        whereInd === -1 ||
+        changeInd === -1
+    ) throw new Error(`The following parameters are required: database, table, where, change`)
+
+
     table.update(recs, uquery)
 }
 
@@ -182,6 +190,12 @@ function handleDelete(parts: string[], cluster: Cluster) {
     const schema = table.schema
     const squery = parseRecords(schema, parts[whereInd +1]);
     const recs = table.select(squery)
+
+    if (
+        dbInd === -1 ||
+        tableInd === -1 ||
+        whereInd === -1
+    ) throw new Error(`The following parameters are required: database, table, where`)
 
     table.delete(recs)
 }
